@@ -1,1 +1,683 @@
+Sleep Health And Lifestyle
+The "Sleep Health And Lifestyle" project aims to explore the intricate relationship between sleep patterns, lifestyle choices, and overall health. Sleep plays a pivotal role in maintaining physical, mental, and emotional well-being, yet it is often neglected in our modern society. This project seeks to delve into various aspects of sleep health, including its physiological mechanisms, the impact of lifestyle factors such as diet and exercise, and the role of Occupation in influencing sleep patterns. By understanding these dynamics, we aim to provide insights and recommendations for optimizing sleep quality and promoting healthier lifestyles.
+
+Sleep Health
+Sleep Duration:The recommended duration for adults is typically 6-9 hours per night.
+Sleep Quality: Refers to the depth and restfulness of sleep. Factors such as sleep environment, sleep disorders, and stress levels can affect sleep quality.
+Sleep Disorders: Conditions such as insomnia, sleep apnea, restless leg syndrome, and narcolepsy can disrupt sleep patterns and affect overall health if left untreated.
+Lifestyle Factors
+Physical Activity Level: Regular exercise improves sleep quality and regulates sleep patterns.
+Stress Levels: High stress levels can hinder sleep. Stress management techniques like mindfulness and relaxation exercises can enhance sleep quality.
+BMI Category: Obesity and overweight status can contribute to sleep disorders like sleep apnea.
+Blood Pressure and Heart Rate: High blood pressure and elevated heart rate can cause sleep disorders.
+Daily Steps: Daily physical activity impacts overall health and sleep quality.
+Improving Sleep Health and Lifestyle
+To improve sleep health, maintain a consistent sleep schedule, create a relaxing bedtime routine, and create a comfortable sleep environment. Limit screen exposure before bedtime, manage stress through relaxation techniques, exercise, and seek support. Incorporate physical activity, maintain a healthy weight, and consult a healthcare professional if sleep issues persist or if you suspect a sleep disorder.
+
+Double-click (or enter) to edit
+
+[ ]
+# # Load the necessary packages
+# import numpy as np
+# import pandas as pd
+# # import numpy as np
+# # import pandas as pd
+import pandas as pd
+import numpy as np
+import scipy.stats as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+[ ]
+mydata = pd.read_csv('Sleep_health_and_lifestyle_dataset.csv')
+[ ]
+mydata.head(10)
+
+[ ]
+# mydata.head()
+# mydata.columns
+mydata.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 374 entries, 0 to 373
+Data columns (total 13 columns):
+ #   Column                   Non-Null Count  Dtype  
+---  ------                   --------------  -----  
+ 0   Person ID                374 non-null    int64  
+ 1   Gender                   374 non-null    object 
+ 2   Age                      374 non-null    int64  
+ 3   Occupation               374 non-null    object 
+ 4   Sleep Duration           374 non-null    float64
+ 5   Quality of Sleep         374 non-null    int64  
+ 6   Physical Activity Level  374 non-null    int64  
+ 7   Stress Level             374 non-null    int64  
+ 8   BMI Category             374 non-null    object 
+ 9   Blood Pressure           374 non-null    object 
+ 10  Heart Rate               374 non-null    int64  
+ 11  Daily Steps              374 non-null    int64  
+ 12  Sleep Disorder           155 non-null    object 
+dtypes: float64(1), int64(7), object(5)
+memory usage: 38.1+ KB
+[ ]
+mydata.describe()
+
+[ ]
+# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+mydata.hist(figsize=(5,10))
+plt.show()
+
+[ ]
+mydata.hist(['Age'], figsize=(5,6) )
+plt.show()
+
+[ ]
+import seaborn as sns
+
+custom_palette = {"Male": "green", "Female": "red"}
+
+sns.boxplot(x="Gender", y="Age", data=mydata , palette=custom_palette)
+# sns.boxplot(x="Gender", orient= "h", data=mydata , palette=custom_palette) )
+
+[ ]
+pd.crosstab(mydata['Stress Level'],mydata['Gender'] )
+
+[ ]
+pd.crosstab(mydata['Stress Level'],mydata['Quality of Sleep'] )
+
+[ ]
+custom_palette = {"Male": "green", "Female": "red"}
+
+sns.countplot(x="Stress Level", hue="Gender", data=mydata , palette=custom_palette)
+
+
+[ ]
+pd.pivot_table(mydata,'Physical Activity Level', index=['Stress Level', 'Gender'],
+                     columns=[ 'Quality of Sleep'])
+
+[ ]
+pd.pivot_table(mydata,'Daily Steps', index=['Stress Level', 'Gender'],
+                     columns=[ 'Quality of Sleep'])
+
+[ ]
+sns.pairplot(mydata)
+
+The best thing to do is get a healthy night’s sleep
+
+Share your project on GitHub
+
+Good work is a reflection of your personality
+
+Double-click (or enter) to edit
+
+How to get a full mark: Be smart and find interested information which lead you insight to the domain of your data set. Because half of the project marks is open ended question which depends on your finding.
+Just pass: You may be pass in the project by only doing what we practice in the lab, so it is up to you.
+[ ]
+# seed to generate same random forall students
+np.random.seed(42)
+[ ]
+x = st.skewnorm.rvs(20, size=1000)
+# arg1 default is 1 (normal) above that generate right skweed
+# and below it will generate left skweed
+# the amount of skeeness depend on the number ratio to size
+[ ]
+# Print the first few values to check
+x[3:10]
+array([1.48882315, 0.19899362, 0.21419511, 1.62194631, 0.7981962 ,
+       0.41647648, 0.51515474])
+[ ]
+fig, ax = plt.subplots()
+_ = plt.hist(x, color = 'grey')
+
+Mean
+The most common measure of central tendency, synonomous with the term "average", is the mean, often symbolized with μ (population) or x¯ (sample):
+
+x¯=∑ni=1xin
+
+[ ]
+xbar = x.mean()
+xbar
+0.7766626899295536
+[ ]
+fig, ax = plt.subplots()
+plt.axvline(x = x.mean(), color='green')
+_ = plt.hist(x, color = 'grey')
+
+Median
+[ ]
+np.median(x)
+0.6454521710822225
+The mode is least impacted by skew, but is typically only applicable to discrete distributions. For continuous distributions with skew (e.g., Daily Steps), median is typically the choice measure of central tendency:
+
+[ ]
+fig, ax = plt.subplots()
+plt.axvline(x = np.mean(x), color='green')
+plt.axvline(x = np.median(x), color='red')
+_ = plt.hist(x, color = 'grey')
+
+Measures of Dispersion
+Variance
+σ2=∑ni=1(xi−x¯)2n
+
+[ ]
+x.var()
+0.3513796057712741
+Standard Deviation
+A straightforward derivative of variance is standard deviation (denoted with σ), which is convenient because its units are on the same scale as the values in the distribution:
+σ=σ2−−√
+
+[ ]
+x.var()**(1/2)
+0.5927728112618477
+[ ]
+sigma = x.std()
+sigma
+0.5927728112618477
+[ ]
+fig, ax = plt.subplots()
+plt.axvline(x = xbar, color='orange')
+plt.axvline(x = xbar+sigma, color='olivedrab')
+plt.axvline(x = xbar-sigma, color='olivedrab')
+_ = plt.hist(x, color = 'lightgray')
+plt.axvline(x = xbar+sigma-1.5, color='red')
+plt.axvline(x = xbar-sigma+1.5, color='red')
+
+4/26/2024 done
+
+[ ]
+sigma/(x.size)**(1/2)
+0.01874512218608548
+[ ]
+st.sem(x) # defaults to 1 degree of freedom, which can be ignored with the larger data sets of ML
+0.018754501782462324
+[ ]
+st.sem(x, ddof=0)
+0.01874512218608548
+Standard error enables us to compare whether the means of two distributions differ significantly, a focus of Intro to Stats.
+
+Gaussian Distribution
+After Carl Friedrich Gauss. Also known as normal distribution:
+
+[ ]
+x = np.random.normal(size=10000)
+[ ]
+sns.set_style('ticks')
+[ ]
+_ = sns.displot(x, kde=False)
+
+When the normal distribution has a mean (μ) of zero and standard deviation (σ) of one, as it does by default with the NumPy normal() method...
+
+[ ]
+x.mean()
+-0.01626305454909193
+[ ]
+x.std()
+1.0039756140435032
+...it is a standard normal distribution (a.k.a., standard Gaussian distribution or z-distribution), which can be denoted as N(μ,σ2)=N(0,1) (noting that σ2=σ here because 12=1).
+
+Normal distributions are by far the most common distribution in statistics and machine learning. They are typically the default option, particularly if you have limited information about the random process you're modeling, because:
+
+Normal distributions assume the greatest possible uncertainty about the random variable they represent (relative to any other distribution of equivalent variance). Details of this are beyond the scope of this tutorial.
+Simple and very complex random processes alike are, under all common conditions, normally distributed when we sample values from the process. Since we sample data for statistical and machine learning models alike, this so-called central limit theorem (covered next) is a critically important concept.
+The Central Limit Theorem
+To develop a functional understanding of the CLT, let's sample some values from our normal distribution:
+
+[ ]
+x_sample = np.random.choice(x, size=10, replace=False)
+x_sample
+array([-0.10069587,  1.35557294,  0.66536894, -3.17042574,  0.43948605,
+        0.53629091, -1.04552949, -0.99434937, -0.74023225, -0.54129909])
+The mean of a sample isn't always going to be close to zero with such a small sample:
+
+[ ]
+x_sample.mean()
+-0.35958129882198664
+Let's define a function for generating sampling distributions of the mean of a given input distribution:
+
+[ ]
+def sample_mean_calculator(input_dist, sample_size, n_samples):
+    sample_means = []
+    for i in range(n_samples):
+        sample = np.random.choice(input_dist, size=sample_size, replace=False)
+        sample_means.append(sample.mean())
+    return sample_means
+[ ]
+sns.displot(sample_mean_calculator(x, 10, 10), color='green', kde=True)
+_ = plt.xlim(-1.5, 1.5)
+
+The more samples we take, the more likely that the sampling distribution of the means will be normally distributed:
+
+[ ]
+sns.displot(sample_mean_calculator(x, 10, 1000), color='green', kde=True)
+_ = plt.xlim(-1.5, 1.5)
+
+The larger the sample, the tighter the sample means will tend to be around the population mean:
+
+[ ]
+sns.displot(sample_mean_calculator(x, 100, 1000), color='green', kde=True)
+_ = plt.xlim(-1.5, 1.5)
+
+[ ]
+sns.displot(sample_mean_calculator(x, 1000, 1000), color='green', kde=True)
+_ = plt.xlim(-1.5, 1.5)
+
+Sampling from a skewed distribution
+[ ]
+s = st.skewnorm.rvs(10, size=10000)
+[ ]
+_ = sns.displot(s, kde=True)
+
+[ ]
+_ = sns.displot(sample_mean_calculator(s, 10, 1000), color='green', kde=True)
+
+[ ]
+_ = sns.displot(sample_mean_calculator(s, 1000, 1000), color='green', kde=True)
+
+Sampling from a multimodal distribution
+[ ]
+m = np.concatenate((np.random.normal(size=5000), np.random.normal(loc = 4.0, size=5000)))
+[ ]
+_ = sns.displot(m, kde=True)
+
+[ ]
+_ = sns.displot(sample_mean_calculator(m, 1000, 1000), color='green', kde=True)
+
+Sampling from uniform
+Even sampling from the highly non-normal uniform distribution, the sampling distribution comes out normal:
+
+[ ]
+u = np.random.uniform(size=10000)
+[ ]
+_ = sns.displot(u)
+
+[ ]
+_ = sns.displot(sample_mean_calculator(u, 1000, 1000), color='green', kde=True)
+
+Therefore, with large enough sample sizes, we can assume the sampling distribution of the means will be normally distributed, allowing us to apply statistical and ML models that are configured for normally distributed noise, which is often the default assumption.
+
+As an example, the "t-test" (covered shortly in Intro to Stats) allows us to infer whether two samples come from different populations (say, an experimental group that receives a treatment and a control group that receives a placebo). Thanks to the CLT, we can use this test even if we have no idea what the underlying distributions of the populations being tested are, which may be the case more frequently than not.
+
+Until here on 5/6/2024
+z-scores
+Assuming normally-distributed data, a z-score indicates how many standard deviations away from the mean a data point (say, xi) is:
+z=xi−μσ
+
+That is, the formula standardizes a given score xi to the (standard normal) z-distribution. (As we covered in Probability & Information Theory, you could standardize any normal distribution to a mean of zero and standard deviation of one by subtracting its original mean and then dividing by its original standard deviation.)
+
+For example, let's say you get 85% on a CS101 exam. Sounds like a pretty good score and you did extremely well relative to your peers if the mean was 60% with a standard deviation of 10%:
+
+[ ]
+x_i = 85
+mu = 60
+sigma = 10
+[ ]
+x = np.random.normal(mu, sigma, 10000)
+[ ]
+sns.displot(x, color='gray')
+ax.set_xlim(0, 100)
+plt.axvline(mu, color='orange')
+for v in [-3, -2, -1, 1, 2, 3]:
+    plt.axvline(mu+v*sigma, color='olivedrab')
+_ = plt.axvline(x_i, color='purple')
+
+Your z-score is 2.5 standard deviations above the mean:
+
+[ ]
+z = (x_i - mu)/sigma
+z
+2.5
+Or using our simulated class of 10k CS101 students:
+
+[ ]
+z = (x_i - np.mean(x))/np.std(x)
+z
+2.5063103401632336
+Less than one percent of the class outperformed you:
+
+[ ]
+len(np.where(x > 85)[0])
+69
+[ ]
+100*69/10000
+0.69
+[ ]
+np.percentile(x, 99)
+83.35787058294662
+In contrast, if the mean score of your peers is 90 and the standard deviation is 2:
+
+[ ]
+mu = 90
+sigma = 2
+[ ]
+y = np.random.normal(mu, sigma, 10000)
+[ ]
+sns.displot(y, color='gray')
+plt.axvline(mu, color='orange')
+for v in [-3, -2, -1, 1, 2, 3]:
+    plt.axvline(mu+v*sigma, color='olivedrab')
+_ = plt.axvline(x_i, color='purple')
+
+Your z-score is 2.5 standard deviations below the mean (!):
+
+[ ]
+z = (x_i - mu)/sigma
+z
+-2.5
+Or using our simulated class of 10k CS101 students:
+
+[ ]
+z = (x_i - np.mean(y))/np.std(y)
+z
+-2.479852596293303
+In which case, over 99% of the class outperformed you:
+
+[ ]
+len(np.where(y > 85)[0])
+9933
+[ ]
+100*9933/10000
+99.33
+A mere 67 folks attained worse:
+
+[ ]
+10000-9933
+67
+[ ]
+np.percentile(y, 1)
+85.3781445632019
+A frequentist convention is to consider a data point that lies further than three standard deviations from the mean to be an outlier.
+
+It's a good idea to individually investigate outliers in your data as they may represent an erroneous data point (e.g., some data by accident, a data-entry error, or a failed experiment) that perhaps should be removed from further analysis (especially, as outliers can have an outsized impact on statistics including mean and correlation). It may even tip you off to a major issue with your data-collection methodology or your ML model that can be resolved or that you could have a unit test for.
+
+Exercises
+
+You clean and jerk 100kg in a weightlifting competition. The mean C&J weight at the competition is 100kg. What's your z-score for the C&J?
+You snatch 100kg in the same competition. The mean snatch weight is 80kg with a standard deviation of 10kg. What's your z-score for the snatch?
+In olympic weightlifting, your overall score is the sum total of your C&J and snatch weights. The mean of these totals across competitors is 180kg with a standard deviation of 5kg. What's your overall z-score in the competition?
+Spoiler alert: Solutions below
+
+Solutions
+
+zero
+two
+four (you may have won the meet!)
+p-values
+These quantify the probability that a given observation would occur by chance alone.
+
+For example, we saw above that with our simulated 10k exam results, only 69 folks attained a z-score above 2.5 and only 67 (=10000-9993) attained a z-score below -2.5. Thus, if we were to randomly sample one of the 10k CS101 exam results, we would expect it to be outside of 2.5 (i.e., +/- 2.5) standard deviations only 1.36% of the time:
+69+6710000=0.0136=1.36%
+
+Equivalent to increasing our CS101 class size from 10k toward infinity, the probability of a score being further than 2.5 standard deviations from the mean of a normal distribution can be determined with the distribution's cumulative distribution function (CDF):
+
+[ ]
+p_below = st.norm.cdf(-2.5)
+p_below
+0.006209665325776132
+[ ]
+p_below*10000
+62.096653257761325
+[ ]
+sns.displot(y, color='gray')
+_ = plt.axvline(mu-2.5*sigma, color='blue')
+
+[ ]
+st.norm.cdf(2.5)
+0.9937903346742238
+[ ]
+p_above = 1-st.norm.cdf(2.5)
+p_above
+0.006209665325776159
+[ ]
+p_above*10000
+62.09665325776159
+[ ]
+sns.displot(y, color='gray')
+_ = plt.axvline(mu+2.5*sigma, color='blue')
+
+[ ]
+p_outside = p_below + p_above
+p_outside
+0.01241933065155229
+[ ]
+p_outside*10000
+124.1933065155229
+[ ]
+sns.displot(y, color='gray')
+plt.axvline(mu+2.5*sigma, color='blue')
+_ = plt.axvline(mu-2.5*sigma, color='blue')
+
+In other words, assuming a normal distribution, the probability (the p-value) of a sampled value being at least 2.5 standard deviations away from the mean by chance alone is p≈.0124.
+
+The frequentist convention is that if a p-value is less than .05, we can say that it is a "statistically significant" observation. We typically denote this significance threshold with α, e.g., α=.05.
+
+For example, with a fair coin, the probability of throwing six heads or six tails in a six-coin-flip experiment is 0.03125 (p=0.015625 for either of six heads or six tails). Refer back to the coinflip_prob() method from the Probability notebook for proof.
+
+If a friend of yours hands you a coin, the null hypothesis (the baseline assumed by the fair-toss distribution) would be that the coin is fair. If you test this coin by flipping it six times and it comes up heads on all six or tails on all six, this observation would suggest that you should reject the null hypothesis because chance alone would facilitate such an observation less than 5% of the time, i.e., p<.05.
+
+The z-scores corresponding to α=.05 can be obtained from the normal distribution's percent point function (PPF), which facilitates the inverse of the CDF. To capture 95% of the values around the mean, we leave 2.5% at the bottom of the distribution and 2.5% at the top:
+
+[ ]
+st.norm.ppf(.025)
+-1.9599639845400545
+[ ]
+st.norm.ppf(.975)
+1.959963984540054
+Thus, at the traditional α=.05, a sampled value with z-score less than -1.96 or greater than 1.96 would be considered statistically significant.
+
+[ ]
+sns.displot(y, color='gray')
+plt.axvline(mu+1.96*sigma, color='darkred')
+_ = plt.axvline(mu-1.96*sigma, color='darkred')
+
+With a stricter threshold, say α=.01:
+
+[ ]
+st.norm.ppf(.005)
+-2.575829303548901
+[ ]
+st.norm.ppf(.995)
+2.5758293035489004
+[ ]
+sns.displot(y, color='gray')
+
+plt.axvline(mu+1.96*sigma, color='darkred')
+plt.axvline(mu-1.96*sigma, color='darkred')
+
+plt.axvline(mu+2.56*sigma, color='black')
+_ = plt.axvline(mu-2.56*sigma, color='black')
+
+(Time-permitting, a discussion of two-tailed vs one-tailed p-value tests would be informative here.)
+
+Exercises
+
+What are the p-values associated with your weightlifting results from the three preceding exercises?
+With the standard α=.05, which of the three weightlifting results are "statistically significant"?
+Spoiler alert: Solutions below
+
+Solutions
+
+1a. This result is at the mean, which is also the median for a normal distribution; exactly half of the values are above as they are below. This corresponds to the highest possible p-value, p=1, because any value in the distribution is guaranteed to be above it or below it:
+
+[ ]
+p_below = st.norm.cdf(0)
+p_below
+0.5
+[ ]
+p_above = 1-st.norm.cdf(0)
+p_above
+0.5
+[ ]
+p_below + p_above
+1.0
+More generally:
+
+[ ]
+def p_from_z(my_z):
+    return 2 * st.norm.cdf(-abs(my_z))
+[ ]
+p_from_z(0)
+1.0
+1b. The probability of a value being below z=−2 is:
+
+[ ]
+p_below = st.norm.cdf(-2)
+p_below
+0.0227501319481792
+...and the probability of a value being above z=2 is the same:
+
+[ ]
+p_above = 1-st.norm.cdf(2)
+p_above
+0.02275013194817921
+Therefore, the p-value -- the probability that a value is below z=−2 or above z=2 -- is:
+
+[ ]
+p_below + p_above
+0.04550026389635841
+[ ]
+p_from_z(2)
+0.0455002638963584
+1c. Following the same calculations as we did for 1b, the p-value for an observation 4 standard deviations away from the mean is:
+
+[ ]
+p_from_z(4)
+6.334248366623973e-05
+...which is about 0.0000633:
+
+[ ]
+0.0000633
+6.33e-05
+(Incidentally, very small p values are often reported as negative log P values as these are much easier to read...)
+
+[ ]
+-np.log10(6.33e-05)
+4.198596289982645
+The absolute value of the z-score for your snatch as well as your combined score is greater than 1.96 so they're both "statistically significant". Your performance on the clean and jerk could not have been less significant!
+Comparing Means with t-tests
+Where z-scores apply to individual values only, t-tests enables us to compare (the mean of) a sample of multiple values to a reference mean.
+
+Student's Single-Sample t-test
+Named after William Sealy Gosset, an Oxford-trained scientist and mathematician, who became a stout yield statistician for Guinness in Dublin (from 1899 to his fatal heart attack in 1937 shortly after being promoted to head brewer). Alongside sabbaticals in Karl Pearson's UCL Biometric Laboratory, Gosset published under the pseudonym Student (including on the t-test, starting in 1908) as it was against Guinness policy to publish.
+
+Recalling the formula for calculating a z-score:
+z=xi−μσ
+
+The single-sample t-test is a variation on the theme and is defined by:
+t=x¯−μ0sx¯
+Where:
+
+x¯ is the sample mean
+μ0 is a reference mean, e.g., known population mean or "null hypothesis" mean
+sx¯ is the sample standard error
+Let's say you're the head brewer at Guinness. Your baseline brewing process yields 50L of stout. Using a new genetically-modified yeast, you obtain the following yields (all in liters) in four separate experiments:
+
+[ ]
+x = [48, 50, 54, 60]
+We can obtain the t-statistic for this sample as follows:
+
+[ ]
+xbar = np.mean(x)
+xbar
+53.0
+[ ]
+sx = st.sem(x)
+sx
+2.6457513110645907
+[ ]
+t = (xbar-50)/sx
+t
+1.1338934190276817
+We can convert the t-value into a p-value using Student's t-distribution (similar to the normal z-distribution, but varies based on number of data points in sample; see here for more detail):
+
+[ ]
+# my_n is number of observation that you wnat to compare it to the mean
+
+def p_from_t(my_t, my_n):
+    return 2 * st.t.cdf(-abs(my_t), my_n-1) # 2nd arg to t.cdf() is "degrees of freedom"
+[ ]
+# when p_value is <0.5 mean the provided observation
+# is not significantly differ from the provided mean
+p_from_t(t, len(x))
+0.3392540508564543
+(An illustration of degrees of freedom: If we know the mean of the array x, three of its four values can vary freely. That is, if we know three of the values in the array, the fourth has no "freedom"; it must be a specific value. Thus, the most common situation with statistical tests is that we have n-1 degrees of freedom.)
+
+For everyday usage, however, we can rely on the SciPy ttest_1samp() method:
+
+[ ]
+st.ttest_1samp(x, 50)
+TtestResult(statistic=1.1338934190276817, pvalue=0.3392540508564543, df=3)
+Welch's Independent t-test
+In ordinary circumstances, if we have two samples whose means we'd like to compare, we use an independent t-test.
+
+[ ]
+penguins = sns.load_dataset('penguins').dropna() # some rows are missing data
+
+[ ]
+penguins
+
+[ ]
+np.unique(penguins.species, return_counts=True)
+
+
+(array(['Adelie', 'Chinstrap', 'Gentoo'], dtype=object),
+ array([146,  68, 119], dtype=int64))
+[ ]
+adelie = penguins[penguins.species == 'Adelie']
+[ ]
+adelie
+
+[ ]
+np.unique(adelie.island, return_counts=True)
+(array(['Biscoe', 'Dream', 'Torgersen'], dtype=object),
+ array([44, 55, 47], dtype=int64))
+[ ]
+np.unique(adelie.sex, return_counts=True)
+(array(['Female', 'Male'], dtype=object), array([73, 73], dtype=int64))
+[ ]
+_ = sns.boxplot(x='island', y='body_mass_g', hue='sex', data=adelie)
+
+Mass doesn't appear to vary by island, so we can feel comfortable grouping the data together by island. Weight does, however, appear to vary by sex so let's take a closer look:
+
+[ ]
+f = adelie[adelie.sex == 'Female']['body_mass_g'].to_numpy()/1000
+f
+array([3.8  , 3.25 , 3.45 , 3.625, 3.2  , 3.7  , 3.45 , 3.325, 3.4  ,
+       3.8  , 3.8  , 3.2  , 3.15 , 3.25 , 3.3  , 3.325, 3.55 , 3.3  ,
+       3.15 , 3.1  , 3.   , 3.45 , 3.5  , 3.45 , 2.9  , 3.55 , 2.85 ,
+       3.15 , 3.6  , 2.85 , 3.35 , 3.05 , 3.6  , 3.55 , 3.7  , 3.7  ,
+       3.55 , 3.2  , 3.8  , 3.35 , 3.5  , 3.6  , 3.55 , 3.4  , 3.3  ,
+       3.7  , 2.9  , 3.725, 3.075, 2.925, 3.75 , 3.175, 3.825, 3.2  ,
+       3.9  , 2.9  , 3.35 , 3.15 , 3.45 , 3.05 , 3.275, 3.05 , 3.325,
+       3.5  , 3.425, 3.175, 3.4  , 3.4  , 3.05 , 3.   , 3.475, 3.45 ,
+       3.7  ])
+[ ]
+m = adelie[adelie.sex == 'Male']['body_mass_g'].to_numpy()/1000
+m
+array([3.75 , 3.65 , 4.675, 3.8  , 4.4  , 4.5  , 4.2  , 3.6  , 3.95 ,
+       3.8  , 3.55 , 3.95 , 3.9  , 3.9  , 4.15 , 3.95 , 4.65 , 3.9  ,
+       4.4  , 4.6  , 3.425, 4.15 , 4.3  , 4.05 , 3.7  , 3.8  , 3.75 ,
+       4.4  , 4.05 , 3.95 , 4.1  , 4.45 , 3.9  , 4.15 , 4.25 , 3.9  ,
+       4.   , 4.7  , 4.2  , 3.55 , 3.8  , 3.95 , 4.3  , 4.45 , 4.3  ,
+       4.35 , 4.1  , 4.725, 4.25 , 3.55 , 3.9  , 4.775, 4.6  , 4.275,
+       4.075, 3.775, 3.325, 3.5  , 3.875, 4.   , 4.3  , 4.   , 3.5  ,
+       4.475, 3.9  , 3.975, 4.25 , 3.475, 3.725, 3.65 , 4.25 , 3.75 ,
+       4.   ])
+[ ]
+fbar = f.mean()
+fbar
+3.368835616438356
+[ ]
+mbar = m.mean()
+mbar
+4.043493150684932
+To quantify whether males weigh significantly more than females, we can use the Welch t-test, devised by the 20th c. British statistician Bernard Lewis Welch:
+t=x¯−y¯s2xnx+s2yny−−−−−−√
+Where:
+
+x¯ and y¯ are the sample means
+s2x and s2y are the sample variances
+nx and ny are the sample sizes
+5/16/2024 done
+
+Colab paid products - Cancel contracts here
 
